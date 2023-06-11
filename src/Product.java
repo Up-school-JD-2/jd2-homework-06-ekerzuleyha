@@ -1,3 +1,5 @@
+import org.w3c.dom.ls.LSOutput;
+
 import java.util.Objects;
 
 public class Product {
@@ -13,6 +15,7 @@ public class Product {
   private String category;
 
   private ProductStatus productStatus;
+
 
   public Product(String id, String name, int stock, double price, String category, ProductStatus productStatus) {
     this.id = id;
@@ -100,4 +103,5 @@ public class Product {
   public int hashCode() {
     return Objects.hash(id, name, stock, price, category, productStatus);
   }
+
 }

@@ -1,20 +1,21 @@
-import java.util.ArrayList;
-import java.util.Comparator;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-import java.util.OptionalDouble;
+import java.util.*;
 import java.util.function.BiConsumer;
 import java.util.function.Function;
 import java.util.function.Predicate;
 import java.util.function.Supplier;
 import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 public class ProductManager {
 
   private Map<String, Product> products;  // veritabanı
+  //key kısmında ıd ler tutulacak ,product kısmında ürünler tutulacak
 
   private Map<String, Supplier<String>> orderNumberSuppliers;
+  // tedarilçilerimiz olacak ,onların ıd sini tutucaz, value kısmında Supplier<String> vericez
+  // değer almaz belirtmiş olduğumuz değeri bize döndürür.
+  //
+
 
   private List<Order> orders;
 
@@ -76,12 +77,14 @@ public class ProductManager {
   // 0001  1  10
   // 0001  1  0
   // OrderItem  -> String productId, Integer quantity;
+  //sipariş olduğunda yapılacak adımlar
   public void processOrder(String orderId, Map<String, Integer> orderItems,
                            BiConsumer<Product, Integer> updateStockFunction) {
     Map<Product, Integer> productQuantityMap = new HashMap<>();
     for (Map.Entry<String, Integer> entry : orderItems.entrySet()) {
       String productId = entry.getKey();
       Integer quantity = entry.getValue();
+      //ürünümüzü buluyoruz
       Product product = getProductById(productId);
       if (product != null) {
         updateStock(productId, quantity, updateStockFunction);
@@ -103,23 +106,44 @@ public class ProductManager {
     System.out.println("Total Amount: " + order.getTotalAmount());
   }
 
+  //List<String> namesSet = CollectionFactory.getNameSet();
+  //List<Product> productList= Product.;
+  //Stream<Product> streamm = (Stream<Product>) products.get(products);
+  // ProductStatus'ü ACTIVE olan ürünleri fiyatlarına göre sıralayıp döndüren metodu yazın
   public List<Product> getActiveProductsSortedByPrice() {
-    // ProductStatus'ü ACTIVE olan ürünleri fiyatlarına göre sıralayıp döndüren metodu yazın
-    return null;
+
+    return products.values().stream().filter(product -> product.getProductStatus() == ProductStatus.ACTIVE)
+            .sorted(Comparator.comparingDouble(Product :: getPrice)).collect(Collectors.toList());
+
   }
 
+
   public double calculateAveragePriceInCategory(String category) {
+
     // String olarak verilen category'e ait olan ürünlerin fiyatlarının ortalamasını yoksa 0.0 döndüren metodu yazın
     // tip: OptionalDouble kullanımını inceleyin.
-    return 0.0;
+
+    OptionalDouble averagePrice = products.values().stream().filter(product -> product.getCategory().equals(category))
+            .mapToDouble(Product :: getPrice).average();
+
+    return averagePrice.orElse(0.0);
   }
 
   public Map<String, Double> getCategoryPriceSum() {
+
     // category'lere göre gruplayıp, her bir kategoride bulunan ürünlerin toplam fiyatını stream ile hesaplayıp
     // döndüren metodu yazın
     // örn:
     // category-1 105.2
     // category-2 45.0
-    return null;
+
+
+    Map< String,Double > totalbyCategory= products.values().stream()
+            .collect(Collectors.groupingBy(Product :: getCategory ,
+                                           Collectors.summingDouble(Product :: getPrice )));
+
+
+    return totalbyCategory;
+
   }
 }

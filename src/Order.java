@@ -4,9 +4,12 @@ public class Order {
 
   private String orderId;
 
+
   private Map<Product, Integer> productQuantityMap;
+  // key , value= kaç tane sipariş geçilmiş
 
   private double totalAmount;
+  //toplam fiyat
 
   public Order(String orderId, Map<Product, Integer> productQuantityMap) {
     this.orderId = orderId;
@@ -43,6 +46,8 @@ public class Order {
   }
 
   private double calculateTotalAmount() {
+    //map in içindeki key value değerlerini tek tek gezer entrySet, daha sonra double a çevirdik
+    //daha sonra productın fiyatını ve kaç tane olduğunu çarptık
     return productQuantityMap.entrySet().stream()
                              .mapToDouble(entrySet -> entrySet.getKey().getPrice() * entrySet.getValue())
                              .sum();

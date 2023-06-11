@@ -37,6 +37,8 @@ public class Main {
       product.setStock(newStock);
     });
 
+
+
     System.out.println("\n\n\n\n");
 
     System.out.println("GENERATE ORDER NUMBER ");
@@ -70,5 +72,31 @@ public class Main {
                 product.getProductStatus()));
     System.out.println("Active products :");
     filteredProducts.forEach(System.out::println);
+    System.out.println("*******************************");
+
+
+    //manager.calculateAveragePriceInCategory("Category 1");
+
+    double averagePrice = manager.calculateAveragePriceInCategory("Category 2");
+    System.out.println("Kategoriye göre ortalama fiyatlar");
+    System.out.println(averagePrice);
+
+    /*String averagePrice = String.valueOf(manager.calculateAveragePriceInCategory("Category 1"));
+    System.out.println(averagePrice);*/
+    System.out.println("********************");
+
+    String a = manager.getActiveProductsSortedByPrice().toString();
+    System.out.println("Aktif durumda olan ürünlerin sıralaması");
+    System.out.println(a);
+    System.out.println("*****************");
+
+    Map<String, Double> b = manager.getCategoryPriceSum();
+    System.out.println("Kategorilerine ayrılmış ürünlerin toplam fiyatları:");
+    System.out.println(b);
+
+   /* manager.getActiveProductsSortedByPrice();
+    System.out.println("Kategoriye göre ortalama fiyatlar");
+    String averagePrice = String.valueOf(manager.calculateAveragePriceInCategory("Category 2"));
+    System.out.println(averagePrice);*/
   }
 }
