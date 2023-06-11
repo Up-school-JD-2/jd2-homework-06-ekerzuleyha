@@ -141,6 +141,7 @@ public class ProductManager {
     Map< String,Double > totalbyCategory= products.values().stream()
             .collect(Collectors.groupingBy(Product :: getCategory ,
                                            Collectors.summingDouble(Product :: getPrice )));
+    System.out.println("Başarılı");
 
 
     return totalbyCategory;

@@ -92,6 +92,7 @@ public class Main {
 
     Map<String, Double> b = manager.getCategoryPriceSum();
     System.out.println("Kategorilerine ayrılmış ürünlerin toplam fiyatları:");
+    System.out.println("Kategorilerine ayrılmış ürünlerin toplam fiyatları:");
     System.out.println(b);
 
    /* manager.getActiveProductsSortedByPrice();
